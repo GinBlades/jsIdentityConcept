@@ -1,5 +1,43 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .row
+    .col-sm
+      .btn-group
+        a.btn.btn-primary(href="/sign-in") Sign In
+        a.btn.btn-success(href="/register") Register
+
+  .row
+    .col-sm
+      h2 Users
+      table.table.table-striped
+        thead
+          tr
+            th Id
+            th Email
+            th First Name
+            th Last Name
+            th Password
+        tbody
+          each user in users
+            tr
+              td= user._id
+              td= user.email
+              td= user.firstName
+              td= user.lastName
+              td= user.password
+  .row
+    .col-sm
+      h2 Logins
+      table.table.table-striped
+        thead
+          tr
+            th ID
+            th Email
+            th Time
+        tbody
+          each login in logins
+            tr
+              td= login._id
+              td= login.email
+              td= login.loginTime
