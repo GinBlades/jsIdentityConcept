@@ -2,7 +2,11 @@ const express = require('express');
 const router = express.Router();
 const User = require("../models/User");
 const Login = require("../models/Login");
+const fs = require("fs");
+const jwt = require("jsonwebtoken");
+const {promisify} = require("util");
 
+const readFile = promisify(fs.readFile);
 
 /* GET home page. */
 router.get('/', async (req, res) => {
@@ -33,5 +37,18 @@ router.post("/register", async (req, res) => {
   await user.save();
   res.redirect("/");
 });
+
+router.get("/public-key", async (req, res) => {
+  const publicKey = await readFile("C:/Apps/certs/jwt-public.pem", "utf8");
+
+  res.json({publicKey: publicKey});
+});
+
+router.get("/jwt/:user", async (req, res) => {
+  const privateKey = await readFile("C:/Apps/certs/jwt-private.pem");
+
+  const token = jwt.sign({user: req.params.user}, {key: privateKey, passphrase: "password"}, {algorithm: "RS256"});
+  res.json({token: token});
+})
 
 module.exports = router;

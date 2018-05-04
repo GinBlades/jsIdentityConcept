@@ -14,7 +14,7 @@ async function main() {
     const publicKey = await readFile("C:/Apps/certs/jwt-public.pem");
     const payload = jwt.verify(token, publicKey, (err, decoded) => {
         console.log("Decoded", decoded);
-    })
+    });
 }
 
 main();
